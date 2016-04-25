@@ -1,86 +1,65 @@
 #pragma once
 
-#include <string>
-#include <boost/dynamic_bitset.hpp>
+#include "bin_conversion.h"
 
-typedef unsigned int uint;
+struct Read{
 
-// Convert a sequence of char into binary
-boost::dynamic_bitset<> seq2bin(std::string& seq, const uint s){
+    const uint32_t size;
+    uint8_t* seq;
+};
 
-    boost::dynamic_bitset<> bin(2*s);
-    for (uint i=0; i < s; ++i){
 
-        switch(seq[i]){
+Read seq2bin(std::string& seq, const uint32_t s){
 
-            case 'T':
-                bin.flip(2*i);
-                bin.flip(2*i+1);
-                break;
+    uint d = s%4;
+    uint s2 = s + (d>0);
 
-            case 'C':
-                bin.flip(2*i);
-                break;
+    // If sequence length is not multiple of 4, 'A's are added in the end to get a multipe of 4
+    for (uint i=0; i < d; ++i){
 
-            case 'G':
-                bin.flip(2*i+1);
-                break;
-
-            default:
-                break;
-        }
+        seq += 'A';
     }
 
-    return bin;
+    uint8_t bin[s2];
+
+    for (uint i=0; i<s2; i+=4){
+
+        bin[i] = seq2binTable[seq.substr(i, i+3)];
+    }
+
+
+    return Read {s, bin};
 }
 
 
-// Convert a binary sequence into char
-template <typename T>
-std::string bin2seq(T& bin, const uint s){
 
-    std::string seq(s, 'x');
+std::string bin2seq(const Read& r){
 
-    for (uint i=0; i<s; i+=2){
+    std::string out;
 
-        switch(bin[i]){
-            case 1:
-                switch(bin[i+1]){
-                    case 1:
-                        seq[i/2] = 'T';
-                        break;
-                    default:
-                        seq[i/2] = 'G';
-                        break;
-                }
-                break;
-            default:
-                switch(bin[i+1]){
-                    case 1:
-                        seq[i/2] = 'C';
-                        break;
-                    default:
-                        seq[i/2] = 'A';
-                        break;
-                }
-                break;
-        }
+    uint s = sizeof(r.seq) / sizeof(r.seq[0]);
+
+    for (uint i=0; i<s; ++i){
+
+        out += bin2seqTable[r.seq[i]];
     }
 
-    return seq;
+    return out.substr(0, r.size);
 }
 
 
-template <typename T>
-T revComp(T& b){
 
-    T r;
-    uint s = b.size()-1;
+void compare(const uint8_t c1, const uint8_t c2, uint& a, uint& b){
 
-    for (int i=s; i>=0; --i){
+    for(uint i=0; i<8; i+=2) {
 
-        r.set(s-i, !b[i]);
+        if(((c1&(1<<i))!=0) == ((c2&(1<<i))!=0) and ((c1&(1<<(i+1)))!=0) == ((c2&(1<<(i+1)))!=0)){
+
+            ++a;
+
+        } else {
+
+            ++b;
+        }
     }
-
-    return r;
 }
