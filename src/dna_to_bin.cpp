@@ -1,6 +1,5 @@
 #include "binary.h"
-#include "bool_vector.h"
-#include <bitset>
+
 #include <fstream>
 #include <iostream>
 #include <chrono>
@@ -9,21 +8,21 @@
 int main(int argc, char *argv[])
 {
 
-    typedef std::vector<bool> read;
     std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
     std::ifstream f;
     f.open("reads1.fasta");
 
-    std::vector<read> reads_1;
+    std::vector<boost::dynamic_bitset<>> reads_1;
 
     std::string line;
 
-    const uint s = 98;
+    uint s;
 
     while(std::getline(f, line)){
 
         if (line[0] != '>'){
 
+            s = line.size();
             reads_1.push_back(seq2bin(line, s));
         }
     }
@@ -39,13 +38,13 @@ int main(int argc, char *argv[])
 
     f.open("reads2.fasta");
 
-    std::vector<read> reads_2;
+    std::vector<boost::dynamic_bitset<>> reads_2;
 
     while(std::getline(f, line)){
 
         if (line[0] != '>'){
 
-            reads_2.push_back(seq2bin(line, s));
+            reads_2.push_back(seq2bin(line, line.size()));
         }
     }
 

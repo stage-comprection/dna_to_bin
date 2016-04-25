@@ -1,13 +1,14 @@
 #pragma once
 
 #include <string>
+#include <boost/dynamic_bitset.hpp>
 
 typedef unsigned int uint;
 
 // Convert a sequence of char into binary
-template <typename T>
-void seq2bin(const std::string& seq, T& bin, const uint s){
+boost::dynamic_bitset<> seq2bin(std::string& seq, const uint s){
 
+    boost::dynamic_bitset<> bin(2*s);
     for (uint i=0; i < s; ++i){
 
         switch(seq[i]){
@@ -29,6 +30,8 @@ void seq2bin(const std::string& seq, T& bin, const uint s){
                 break;
         }
     }
+
+    return bin;
 }
 
 
