@@ -67,7 +67,7 @@ int main(int argc, char *argv[])
     const uint s=98;
     std::bitset<2*s> bin;
 
-    std::vector<std::bitset<2*s>> reads_1;
+    std::vector<std::string> reads_1;
 
     std::string line;
 
@@ -77,9 +77,9 @@ int main(int argc, char *argv[])
         if (line[0] != '>'){
 
 //            reads_1.push_back(seq2bin(line, line.size()));
-            bin.reset();
-            seq2bin(line, bin, s);
-            reads_1.push_back(bin);
+//            bin.reset();
+//            seq2bin(line, bin, s);
+            reads_1.push_back(line);
         }
     }
 
@@ -95,16 +95,16 @@ int main(int argc, char *argv[])
     f.open("reads2.fasta");
 
 //    std::vector<boost::dynamic_bitset<>> reads_2;
-    std::vector<std::bitset<2*s>> reads_2;
+    std::vector<std::string> reads_2;
 
     while(std::getline(f, line)){
 
         if (line[0] != '>'){
 
 //            reads_2.push_back(seq2bin(line, line.size()));
-            bin.reset();
-            seq2bin(line, bin, s);
-            reads_2.push_back(bin);
+//            bin.reset();
+//            seq2bin(line, bin, s);
+            reads_2.push_back(line);
         }
     }
 
