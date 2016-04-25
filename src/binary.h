@@ -26,7 +26,10 @@ Read seq2bin(std::string& seq, const uint32_t s){
     for (uint i=0; i<s2; i+=4){
 
         bin.push_back(seq2binTable[seq.substr(i, i+3)]);
+        std::cout << seq2binTable[seq.substr(i, i+3)] << " | ";
     }
+
+    std::cout << std::endl;
 
     return Read {s, bin};
 }
