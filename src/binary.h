@@ -2,6 +2,7 @@
 
 #include "bin_conversion.h"
 #include <vector>
+#include <iostream>
 
 struct Read{
 
