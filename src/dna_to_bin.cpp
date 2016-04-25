@@ -1,6 +1,9 @@
-#include "binary.h"
+//#include "binary.h"
+#include "bin_bitset.h"
 
+#include <bitset>
 #include <fstream>
+#include <vector>
 #include <iostream>
 #include <chrono>
 #include "sys/types.h"
@@ -59,18 +62,23 @@ int main(int argc, char *argv[])
     std::ifstream f;
     f.open("reads1.fasta");
 
-    std::vector<boost::dynamic_bitset<>> reads_1;
+//    std::vector<boost::dynamic_bitset<>> reads_1;
+
+    const uint s=98;
+    std::bitset<2*s> bin;
+
+    std::vector<std::bitset<2*s>> reads_1;
 
     std::string line;
 
-    uint s;
 
     while(std::getline(f, line)){
 
         if (line[0] != '>'){
 
-            s = line.size();
-            reads_1.push_back(seq2bin(line, s));
+//            reads_1.push_back(seq2bin(line, line.size()));
+            bin.reset();
+            seq2bin(line, bin, s);
         }
     }
 
@@ -85,13 +93,16 @@ int main(int argc, char *argv[])
 
     f.open("reads2.fasta");
 
-    std::vector<boost::dynamic_bitset<>> reads_2;
+//    std::vector<boost::dynamic_bitset<>> reads_2;
+    std::vector<std::bitset<2*s>> reads_2;
 
     while(std::getline(f, line)){
 
         if (line[0] != '>'){
 
-            reads_2.push_back(seq2bin(line, line.size()));
+//            reads_2.push_back(seq2bin(line, line.size()));
+            bin.reset();
+            seq2bin(line, bin, s);
         }
     }
 
