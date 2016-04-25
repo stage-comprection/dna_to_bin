@@ -79,6 +79,7 @@ int main(int argc, char *argv[])
 //            reads_1.push_back(seq2bin(line, line.size()));
             bin.reset();
             seq2bin(line, bin, s);
+            reads_1.push_back(bin);
         }
     }
 
@@ -103,6 +104,7 @@ int main(int argc, char *argv[])
 //            reads_2.push_back(seq2bin(line, line.size()));
             bin.reset();
             seq2bin(line, bin, s);
+            reads_2.push_back(bin);
         }
     }
 
