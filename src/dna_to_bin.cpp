@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
 
     std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
 
-    duration = std::chrono::duration_cast<std::chrono::microseconds>( t2 - t1 ).count();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>( t2 - t1 ).count();
     std::cout << " - File 1 loaded (" << duration << " µs)" << std::endl;
 
     t1 = std::chrono::high_resolution_clock::now();
