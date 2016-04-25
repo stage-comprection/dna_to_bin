@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
 
     while(std::getline(f, line)){
 
-        if (line[0] == '>'){
+        if (line[0] != '>'){
 
             bin.reset();
             seq2bin(line, bin, s);
