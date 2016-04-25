@@ -14,10 +14,8 @@ struct Read{
 Read seq2bin(std::string& seq, const uint32_t s){
 
 
-    std::cout << seq << std::endl;
     uint d = s%4;
     uint s2 = s + (d>0);
-    std::cout << s2 << std::endl;
 
     // If sequence length is not multiple of 4, 'A's are added in the end to get a multipe of 4
     for (uint i=0; i < d; ++i){
@@ -25,17 +23,13 @@ Read seq2bin(std::string& seq, const uint32_t s){
         seq += 'A';
     }
 
-    std::cout << seq << std::endl;
-
     std::vector<uint8_t> bin;
 
     for (uint i=0; i<s2; i+=4){
 
-        bin.push_back(seq2binTable[seq.substr(i, i+3)]);
-        std::cout << seq2binTable[seq.substr(i, i+3)] << " | ";
-    }
+        bin.push_back(seq2binTable[seq.substr(i, 4)]);
 
-    std::cout << std::endl;
+    }
 
     return Read {s, bin};
 }

@@ -66,7 +66,7 @@ std::unordered_map<std::string, uint8_t> seq2binTable = { {"AAAA", 0}, {"AAAC", 
                                                          {"TTAA", 240}, {"TTAC", 242}, {"TTAG", 241}, {"TTAT", 243},
                                                          {"TTCA", 248}, {"TTCC", 250}, {"TTCG", 249}, {"TTCT", 251},
                                                          {"TTGA", 244}, {"TTGC", 246}, {"TTGG", 245}, {"TTGT", 247},
-                                                         {"TTTA", 252}, {"TTTC", 254}, {"TTTG", 253}, {"TTTT", 255},
+                                                         {"TTTA", 252}, {"TTTC", 254}, {"TTTG", 253}, {"TTTT", 255}
                                                           };
 
 
@@ -133,5 +133,5 @@ std::unordered_map<uint8_t, std::string> bin2seqTable = { {0, "AAAA"},{2, "AAAC"
                                                           {240, "TTAA"},{242, "TTAC"},{241, "TTAG"},{243, "TTAT"},
                                                           {248, "TTCA"},{250, "TTCC"},{249, "TTCG"},{251, "TTCT"},
                                                           {244, "TTGA"},{246, "TTGC"},{245, "TTGG"},{247, "TTGT"},
-                                                          {252, "TTTA"},{254, "TTTC"},{253, "TTTG"},{255, "TTTT"},
+                                                          {252, "TTTA"},{254, "TTTC"},{253, "TTTG"},{255, "TTTT"}
                                                            };
