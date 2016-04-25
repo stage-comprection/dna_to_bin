@@ -108,9 +108,7 @@ int main(int argc, char *argv[])
     uint a=0, b=0, c=0;
     for (uint i=0; i<reads_1.size(); ++i){
 
-        uint32_t s = sizeof(reads_1[i].seq) / sizeof(reads_1[i].seq[0]);
-
-        for (uint j=0; j<s; j+=2){
+        for (uint j=0; j<reads_1[i].seq.size(); j+=2){
 
             compare(reads_1[i].seq[j], reads_2[i].seq[j], a, b);
 

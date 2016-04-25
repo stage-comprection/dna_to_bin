@@ -1,11 +1,12 @@
 #pragma once
 
 #include "bin_conversion.h"
+#include <vector>
 
 struct Read{
 
     const uint32_t size;
-    uint8_t* seq;
+    std::vector<uint8_t> seq;
 };
 
 
@@ -20,11 +21,11 @@ Read seq2bin(std::string& seq, const uint32_t s){
         seq += 'A';
     }
 
-    uint8_t bin[s2];
+    std::vector<uint8_t> bin;
 
     for (uint i=0; i<s2; i+=4){
 
-        bin[i] = seq2binTable[seq.substr(i, i+3)];
+        bin.push_back(seq2binTable[seq.substr(i, i+3)]);
     }
 
 
@@ -37,9 +38,7 @@ std::string bin2seq(const Read& r){
 
     std::string out;
 
-    uint s = sizeof(r.seq) / sizeof(r.seq[0]);
-
-    for (uint i=0; i<s; ++i){
+    for (uint i=0; i<r.seq.size(); ++i){
 
         out += bin2seqTable[r.seq[i]];
     }
