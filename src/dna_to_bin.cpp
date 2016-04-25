@@ -62,21 +62,12 @@ int main(int argc, char *argv[])
 
     t1 = std::chrono::high_resolution_clock::now();
 
-    for (uint i=0; i<reads_1[0].size(); ++i){
-        std::cout<<reads_1[0][i];
-    }
-    std::cout<<std::endl;
-    for (uint i=0; i<reads_2[0].size(); ++i){
-        std::cout<<reads_2[0][i];
-    }
-    std::cout<<std::endl<<std::endl;
-
     uint a=0, b=0, c=0;
     for (uint i=0; i<reads_1.size(); ++i){
 
         for (uint j=0; j<reads_1[i].size(); j+=2){
 
-            if (reads_1[i] == reads_2[i] and reads_1[i+1] == reads_2[i+1]){
+            if (reads_1[i][j] == reads_2[i][j] and reads_1[i][j+1] == reads_2[i][j+1]){
 
                 ++a;
 
