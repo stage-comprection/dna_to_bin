@@ -6,7 +6,7 @@ typedef unsigned int uint;
 
 // Convert a sequence of char into binary
 template <typename T>
-void seq2bin(std::string seq, T& bin, const uint s){
+void seq2bin(const std::string& seq, T& bin, const uint s){
 
     for (uint i=0; i < s; ++i){
 

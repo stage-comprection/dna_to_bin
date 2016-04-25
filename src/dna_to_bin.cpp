@@ -1,9 +1,8 @@
 #include "binary.h"
+#include "bool_vector.h"
 #include <bitset>
 #include <fstream>
 #include <iostream>
-#include <string>
-#include <vector>
 
 
 int main(int argc, char *argv[])
