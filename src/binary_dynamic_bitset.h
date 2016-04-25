@@ -84,3 +84,16 @@ T revComp(T& b){
 
     return r;
 }
+
+
+void compare(boost::dynamic_bitset<> b1, boost::dynamic_bitset<> b2, uint& a, uint& b){
+
+    for (uint i=0; i<b1.size(); i+=2){
+
+        if (b1[i] == b2[i] and b1[i+1]==b2[i+1]){
+            a++;
+        }else{
+            b++;
+        }
+    }
+}

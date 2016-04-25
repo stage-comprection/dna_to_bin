@@ -1,4 +1,5 @@
 #include "binary.h"
+#include "binary_dynamic_bitset.h"
 
 #include <bitset>
 #include <fstream>
@@ -60,7 +61,8 @@ int main(int argc, char *argv[])
     std::ifstream f;
     f.open("reads1.fasta");
 
-    std::vector<Read> reads_1;
+//    std::vector<Read> reads_1;
+    std::vector<boost::dynamic_bitset<>> reads_1;
 
     std::string line;
     while(std::getline(f, line)){
@@ -82,7 +84,8 @@ int main(int argc, char *argv[])
 
     f.open("reads2.fasta");
 
-    std::vector<Read> reads_2;
+//    std::vector<Read> reads_2;
+    std::vector<boost::dynamic_bitset<>> reads_2;
 
     while(std::getline(f, line)){
 
@@ -107,11 +110,13 @@ int main(int argc, char *argv[])
     uint a=0, b=0, c=0;
     for (uint i=0; i<reads_1.size(); ++i){
 
-        for (uint j=0; j<reads_1[i].seq.size(); j+=2){
+//        for (uint j=0; j<reads_1[i].seq.size(); j+=2){
 
-            compare(reads_1[i].seq[j], reads_2[i].seq[j], a, b);
+//            compare(reads_1[i].seq[j], reads_2[i].seq[j], a, b);
 
-        }
+//        }
+
+        compare(reads_1[i], reads_2[i], a, b);
 
         ++c;
     }
