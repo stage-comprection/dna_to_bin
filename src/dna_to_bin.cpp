@@ -127,9 +127,12 @@ int main(int argc, char *argv[])
 //    std::cout << "Different : " << b << std::endl;
 //    std::cout << "Total : " << c << std::endl << std::endl;
 
+    std::cout << "?" << std::endl;
     std::string s = "ATGC";
 
     Read r = seq2bin(s, s.size());
+
+    std::cout << "??" << std::endl;
 
     std::cout << r.size << "  -  ";
     for (uint i=0; i<r.seq.size(); i++){
