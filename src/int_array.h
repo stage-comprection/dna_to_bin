@@ -9,20 +9,20 @@
 
 namespace int_array {
 
-    typedef std::pair<uint32_t, uint8_t*> read;
+    typedef std::pair<uint8_t, uint8_t*> read;
 
     // Convert a sequence into an array of uint8_t
-    read seq2bin(std::string& seq, const uint32_t s, const uint32_t s2){
+    read seq2bin(std::string& seq, const uint8_t s, const uint8_t s2){
 
         // If sequence length is not multiple of 4, 'A's are added in the end to get a multipe of 4
-        for (uint i=0; i < s2-s; ++i){
+        for (uint8_t i=0; i < s2-s; ++i){
 
             seq += 'A';
         }
 
         uint8_t* bin = new uint8_t[s2/4]; // !!! Deleted in cleanup()
 
-        for (uint i=0; i<s2; i+=4){
+        for (uint8_t i=0; i<s2; i+=4){
 
             bin[i/4] = seq2binTable[seq.substr(i, 4)];
 
@@ -82,8 +82,8 @@ namespace int_array {
         timePoint t1 = std::chrono::high_resolution_clock::now();
 
         const uint nReads = countReads(f1);
-        const uint32_t s = getReadSize(f1);
-        uint s2 = s + s%4;
+        const uint8_t s = getReadSize(f1);
+        uint8_t s2 = s + s%4;
         read* reads_1 = new read[nReads];
         std::string line;
         uint readCount = 0;

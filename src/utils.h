@@ -52,10 +52,10 @@ const uint countReads(std::ifstream& file){
 }
 
 
-uint32_t getReadSize(std::ifstream& f){
+uint8_t getReadSize(std::ifstream& f){
 
     bool found = false;
-    uint32_t s = 0;
+    uint8_t s = 0;
     std::string line;
 
     while (std::getline(f, line) and !found){

@@ -56,14 +56,14 @@ namespace bitset {
     // Benchmark function
     void benchmark(std::ifstream& f1, std::ifstream& f2){
 
-        timePoint t1 = std::chrono::high_resolution_clock::now();
-
         const uint s=98;
         const uint nReads = countReads(f1);
         read* reads_1 = new read[nReads];
         read bin;
         std::string line;
         uint readCount = 0;
+
+        timePoint t1 = std::chrono::high_resolution_clock::now();
 
         while(std::getline(f1, line)){
 
