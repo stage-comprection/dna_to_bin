@@ -1,6 +1,7 @@
 #include "int_array.h"
 #include "dynamic_bitset.h"
 #include "bitset.h"
+#include "no_binary.h"
 
 int main(int argc, char *argv[])
 {
@@ -14,6 +15,8 @@ int main(int argc, char *argv[])
     dynamic_bitset::benchmark(f1, f2);
 
     int_array::benchmark(f1, f2);
+
+    no_binary::benchmark(f1, f2);
 
     return 0;
 }

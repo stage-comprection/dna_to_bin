@@ -13,4 +13,6 @@ HEADERS += \
     src/dynamic_bitset.h \
     src/int_array.h \
     src/benchmarks_tools.h \
-    src/utils.h
+    src/utils.h \
+    src/no_binary.h \
+    src/bool_vector.h

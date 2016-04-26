@@ -3,44 +3,14 @@
 #include "benchmarks_tools.h"
 #include "utils.h"
 
-#include <bitset>
+namespace no_binary {
 
-namespace bitset {
+    // Compare two strings
+    void compare(std::string& s1, std::string& s2, uint& a, uint& b){
 
-    // Convert a sequence of char into binary
-    template <typename T>
-    void seq2bin(std::string& seq, T& bin, const uint s){
+        for (uint i=0; i < s1.size(); i+=2){
 
-        for (uint i=0; i < s; ++i){
-
-            switch(seq[i]){
-
-                case 'T':
-                    bin.flip(2*i);
-                    bin.flip(2*i+1);
-                    break;
-
-                case 'C':
-                    bin.flip(2*i);
-                    break;
-
-                case 'G':
-                    bin.flip(2*i+1);
-                    break;
-
-                default:
-                    break;
-            }
-        }
-    }
-
-
-    // Compare two bitsets
-    void compare(std::bitset<196>& b1, std::bitset<196>& b2, uint& a, uint& b){
-
-        for (uint i=0; i<b1.size(); i+=2){
-
-            if (b1[i] == b2[i] and b1[i+1] == b2[i+1]) {
+            if (s1[i] == s2[i]){
 
                 a++;
 
@@ -57,10 +27,8 @@ namespace bitset {
 
         timePoint t1 = std::chrono::high_resolution_clock::now();
 
-        const uint s=98;
         const uint nReads = countReads(f1);
-        std::bitset<2*s> reads_1[nReads];
-        std::bitset<2*s> bin;
+        std::string reads_1[nReads];
         std::string line;
         uint readCount = 0;
 
@@ -68,9 +36,7 @@ namespace bitset {
 
             if (line[0] != '>'){
 
-                bin.reset();
-                seq2bin(line, bin, s);
-                reads_1[readCount] = bin;
+                reads_1[readCount] = line;
             }
         }
 
@@ -82,16 +48,14 @@ namespace bitset {
 
         t1 = std::chrono::high_resolution_clock::now();
 
-        std::bitset<2*s> reads_2[nReads];
+        std::string reads_2[nReads];
         readCount = 0;
 
         while(std::getline(f2, line)){
 
             if (line[0] != '>'){
 
-                bin.reset();
-                seq2bin(line, bin, s);
-                reads_2[readCount] = bin;
+                reads_2[readCount] = line;
             }
         }
 

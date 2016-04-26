@@ -3,44 +3,47 @@
 #include "benchmarks_tools.h"
 #include "utils.h"
 
-#include <bitset>
+namespace bool_vector {
 
-namespace bitset {
+    typedef std::vector<bool> read;
 
     // Convert a sequence of char into binary
-    template <typename T>
-    void seq2bin(std::string& seq, T& bin, const uint s){
+    read seq2bin(std::string& seq, const uint s){
+
+        read r (2*s, false);
 
         for (uint i=0; i < s; ++i){
 
             switch(seq[i]){
 
                 case 'T':
-                    bin.flip(2*i);
-                    bin.flip(2*i+1);
+                    r[2*i] = true;
+                    r[2*i+1] = true;
                     break;
 
                 case 'C':
-                    bin.flip(2*i);
+                    r[2*i] = true;
                     break;
 
                 case 'G':
-                    bin.flip(2*i+1);
+                    r[2*i+1] = true;
                     break;
 
                 default:
                     break;
             }
         }
+
+        return r;
     }
 
 
     // Compare two bitsets
-    void compare(std::bitset<196>& b1, std::bitset<196>& b2, uint& a, uint& b){
+    void compare(read& b1, read& b2, uint& a, uint& b){
 
         for (uint i=0; i<b1.size(); i+=2){
 
-            if (b1[i] == b2[i] and b1[i+1] == b2[i+1]) {
+            if (b1[i] == b2[i] and b1[i+1] == b2[i+1]){
 
                 a++;
 
@@ -57,10 +60,8 @@ namespace bitset {
 
         timePoint t1 = std::chrono::high_resolution_clock::now();
 
-        const uint s=98;
         const uint nReads = countReads(f1);
-        std::bitset<2*s> reads_1[nReads];
-        std::bitset<2*s> bin;
+        read reads_1[nReads];
         std::string line;
         uint readCount = 0;
 
@@ -68,9 +69,7 @@ namespace bitset {
 
             if (line[0] != '>'){
 
-                bin.reset();
-                seq2bin(line, bin, s);
-                reads_1[readCount] = bin;
+                reads_1[readCount] = seq2bin(line, s);;
             }
         }
 
@@ -82,16 +81,14 @@ namespace bitset {
 
         t1 = std::chrono::high_resolution_clock::now();
 
-        std::bitset<2*s> reads_2[nReads];
+        read reads_2[nReads];
         readCount = 0;
 
         while(std::getline(f2, line)){
 
             if (line[0] != '>'){
 
-                bin.reset();
-                seq2bin(line, bin, s);
-                reads_2[readCount] = bin;
+                reads_2[readCount] = seq2bin(line, s);;
             }
         }
 
