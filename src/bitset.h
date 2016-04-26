@@ -35,6 +35,7 @@ namespace bitset {
     }
 
 
+    // Compare two bitsets
     void compare(std::bitset<196>& b1, std::bitset<196>& b2, uint& a, uint& b){
 
         for (uint i=0; i<b1.size(); i+=2){
@@ -48,6 +49,7 @@ namespace bitset {
     }
 
 
+    // Benchmark function
     void benchmark(std::ifstream& f1, std::ifstream& f2){
 
         timePoint t1 = std::chrono::high_resolution_clock::now();

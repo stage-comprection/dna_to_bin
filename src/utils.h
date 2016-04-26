@@ -49,3 +49,24 @@ uint countReads(std::ifstream& file){
 
     return count;
 }
+
+
+uint32_t getReadSize(std::ifstream& f){
+
+    bool found = false;
+    uint32_t s = 0;
+    std::string line;
+
+    while (std::getline(f, line) and !found){
+
+        if (line[0] != '>'){
+
+            s = line.size();
+            if (s > 0) found = true;
+        }
+    }
+
+    resetFileIndex(f);
+
+    return s;
+}

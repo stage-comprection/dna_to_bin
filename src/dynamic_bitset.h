@@ -6,7 +6,7 @@
 #include <boost/dynamic_bitset.hpp>
 
 
-namespace dynamic_bitset{
+namespace dynamic_bitset {
 
     typedef unsigned int uint;
 
@@ -102,8 +102,7 @@ namespace dynamic_bitset{
         }
     }
 
-
-
+    // Benchmark function
     void benchmark(std::ifstream& f1, std::ifstream& f2){
 
         timePoint t1 = std::chrono::high_resolution_clock::now();
@@ -117,7 +116,7 @@ namespace dynamic_bitset{
 
             if (line[0] != '>'){
 
-                reads_1[readCount] = seq2bin(line, s);
+                reads_1[readCount] = seq2bin(line, line.size());
             }
         }
 
@@ -129,14 +128,14 @@ namespace dynamic_bitset{
 
         t1 = std::chrono::high_resolution_clock::now();
 
-        std::bitset<2*s> reads_2[nReads];
+        boost::dynamic_bitset<> reads_2[nReads];
         readCount = 0;
 
         while(std::getline(f2, line)){
 
             if (line[0] != '>'){
 
-                reads_2[readCount] = seq2bin(line, s);
+                reads_2[readCount] = seq2bin(line, line.size());
             }
         }
 

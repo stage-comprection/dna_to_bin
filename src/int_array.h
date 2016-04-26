@@ -8,10 +8,11 @@
 
 
 namespace int_array {
-    typedef std::pair<uint32_t, uint8_t[]> read;
 
+    typedef std::pair<uint32_t, uint8_t*> read;
+
+    // Convert a sequence into an array of uint8_t
     read seq2bin(std::string& seq, const uint32_t s){
-
 
         uint d = s%4;
         uint s2 = s + (d>0);
@@ -22,7 +23,7 @@ namespace int_array {
             seq += 'A';
         }
 
-        uint8_t bin[s2/4];
+        uint8_t* bin = new uint8_t[s2/4]; // !!! Deleted in cleanup()
 
         for (uint i=0; i<s2; i+=4){
 
@@ -30,7 +31,7 @@ namespace int_array {
 
         }
 
-        return read {s, bin};
+        return read (s, bin);
     }
 
 
@@ -49,6 +50,7 @@ namespace int_array {
 
 
 
+    // Compare two uint8_t
     void compare(const uint8_t c1, const uint8_t c2, uint& a, uint& b){
 
         for(uint i=0; i<8; i+=2) {
@@ -65,12 +67,24 @@ namespace int_array {
     }
 
 
+    // Cleanup these ugly "new" array
+    void cleanup(read* r1, read* r2, uint s){
 
+        for (uint i=0; i < s; ++i){
+
+            delete[] r1[i].second;
+            delete[] r2[i].second;
+        }
+    }
+
+
+    // Benchmark function
     void benchmark(std::ifstream& f1, std::ifstream& f2){
 
         timePoint t1 = std::chrono::high_resolution_clock::now();
 
         const uint nReads = countReads(f1);
+        const uint32_t s = getReadSize(f1);
         read reads_1[nReads];
         std::string line;
         uint readCount = 0;
@@ -79,7 +93,7 @@ namespace int_array {
 
             if (line[0] != '>'){
 
-
+                reads_1[readCount] = seq2bin(line, s);
             }
         }
 
@@ -114,7 +128,7 @@ namespace int_array {
 
         for (uint i = 0; i < nReads; ++i){
 
-            for (uint j=0; j < sizeof(reads[i].second)/sizeof(reads[i].second[0]); j++){
+            for (uint j=0; j < sizeof(reads_1[i].second)/sizeof(reads_1[i].second[0]); j++){
 
                 compare(reads_1[i].second[j], reads_2[i].second[j], a, b);
             }
@@ -134,6 +148,8 @@ namespace int_array {
         std::cout << "Equal : " << a << std::endl;
         std::cout << "Different : " << b << std::endl;
         std::cout << "Total : " << c << std::endl << std::endl;
+
+        cleanup(reads_1, reads_2, nReads);
     }
 
 }
