@@ -4,10 +4,13 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += main.cpp \
-    src/main.cpp \
     src/dna_to_bin.cpp
 
 HEADERS += \
     binary.h \
-    src/binary.h \
-    src/bool_vector.h
+    src/bitset.h \
+    src/hash_tables.h \
+    src/dynamic_bitset.h \
+    src/int_array.h \
+    src/benchmarks_tools.h \
+    src/utils.h

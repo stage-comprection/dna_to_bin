@@ -1,0 +1,122 @@
+#pragma once
+
+#include "benchmarks_tools.h"
+#include "utils.h"
+
+#include <bitset>
+
+namespace bitset {
+
+    // Convert a sequence of char into binary
+    template <typename T>
+    void seq2bin(std::string& seq, T& bin, const uint s){
+
+        for (uint i=0; i < s; ++i){
+
+            switch(seq[i]){
+
+                case 'T':
+                    bin.flip(2*i);
+                    bin.flip(2*i+1);
+                    break;
+
+                case 'C':
+                    bin.flip(2*i);
+                    break;
+
+                case 'G':
+                    bin.flip(2*i+1);
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    }
+
+
+    void compare(std::bitset<196>& b1, std::bitset<196>& b2, uint& a, uint& b){
+
+        for (uint i=0; i<b1.size(); i+=2){
+
+            if (b1[i] == b2[i] and b1[i+1]==b2[i+1]){
+                a++;
+            }else{
+                b++;
+            }
+        }
+    }
+
+
+    void benchmark(std::ifstream& f1, std::ifstream& f2){
+
+        timePoint t1 = std::chrono::high_resolution_clock::now();
+
+        const uint s=98;
+        const uint nReads = countReads(f1);
+        std::bitset<196> reads_1[nReads];
+        std::bitset<2*s> bin;
+        std::string line;
+        uint readCount = 0;
+
+        while(std::getline(f1, line)){
+
+            if (line[0] != '>'){
+
+                bin.reset();
+                seq2bin(line, bin, s);
+                reads_1[readCount] = bin;
+            }
+        }
+
+        f1.close();
+
+        timePoint t2 = std::chrono::high_resolution_clock::now();
+
+        printTime(t1, t2, "File 1 loaded");
+
+        t1 = std::chrono::high_resolution_clock::now();
+
+        std::bitset<2*s> reads_2[nReads];
+        readCount = 0;
+
+        while(std::getline(f2, line)){
+
+            if (line[0] != '>'){
+
+                bin.reset();
+                seq2bin(line, bin, s);
+                reads_2[readCount] = bin;
+            }
+        }
+
+        f2.close();
+
+        t2 = std::chrono::high_resolution_clock::now();
+
+        printTime(t1, t2, "File 2 loaded");
+
+        t1 = std::chrono::high_resolution_clock::now();
+
+        uint a=0, b=0, c=0;
+        for (uint i = 0; i < nReads; ++i){
+
+            compare(reads_1[i], reads_2[i], a, b);
+            ++c;
+        }
+
+        t2 = std::chrono::high_resolution_clock::now();
+
+        printTime(t1, t2, "Comparison ended");
+
+        std::cout << std::endl;
+        std::cout << " - Virtual memory used : " << getValue_v() << std::endl;
+        std::cout << " - Physical memory used : " << getValue_p() << std::endl;
+
+        std::cout << std::endl;
+        std::cout << "Equal : " << a << std::endl;
+        std::cout << "Different : " << b << std::endl;
+        std::cout << "Total : " << c << std::endl << std::endl;
+    }
+
+}
