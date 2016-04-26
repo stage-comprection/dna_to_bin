@@ -8,12 +8,12 @@
 
 namespace dynamic_bitset {
 
-    typedef unsigned int uint;
+    typedef boost::dynamic_bitset<> read;
 
     // Convert a sequence of char into binary
-    boost::dynamic_bitset<> seq2bin(std::string& seq, const uint s){
+    read seq2bin(std::string& seq, const uint s){
 
-        boost::dynamic_bitset<> bin(2*s);
+        read bin(2*s);
         for (uint i=0; i < s; ++i){
 
             switch(seq[i]){
@@ -90,7 +90,7 @@ namespace dynamic_bitset {
     }
 
     // Compare two bitsets
-    void compare(boost::dynamic_bitset<> b1, boost::dynamic_bitset<> b2, uint& a, uint& b){
+    void compare(read b1, read b2, uint& a, uint& b){
 
         for (uint i=0; i<b1.size(); i+=2){
 
@@ -108,7 +108,7 @@ namespace dynamic_bitset {
         timePoint t1 = std::chrono::high_resolution_clock::now();
 
         const uint nReads = countReads(f1);
-        boost::dynamic_bitset<> reads_1[nReads];
+        read* reads_1 = new read[nReads];
         std::string line;
         uint readCount = 0;
 
@@ -117,6 +117,7 @@ namespace dynamic_bitset {
             if (line[0] != '>'){
 
                 reads_1[readCount] = seq2bin(line, line.size());
+                ++readCount;
             }
         }
 
@@ -128,7 +129,7 @@ namespace dynamic_bitset {
 
         t1 = std::chrono::high_resolution_clock::now();
 
-        boost::dynamic_bitset<> reads_2[nReads];
+        read* reads_2 = new read[nReads];
         readCount = 0;
 
         while(std::getline(f2, line)){
@@ -136,6 +137,7 @@ namespace dynamic_bitset {
             if (line[0] != '>'){
 
                 reads_2[readCount] = seq2bin(line, line.size());
+                ++readCount;
             }
         }
 
@@ -166,6 +168,9 @@ namespace dynamic_bitset {
         std::cout << "Equal : " << a << std::endl;
         std::cout << "Different : " << b << std::endl;
         std::cout << "Total : " << c << std::endl << std::endl;
+
+        delete[] reads_1;
+        delete[] reads_2;
     }
 
 }

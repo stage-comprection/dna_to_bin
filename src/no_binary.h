@@ -5,10 +5,12 @@
 
 namespace no_binary {
 
+    typedef std::string read;
+
     // Compare two strings
     void compare(std::string& s1, std::string& s2, uint& a, uint& b){
 
-        for (uint i=0; i < s1.size(); i+=2){
+        for (uint i=0; i < s1.size(); i++){
 
             if (s1[i] == s2[i]){
 
@@ -28,7 +30,7 @@ namespace no_binary {
         timePoint t1 = std::chrono::high_resolution_clock::now();
 
         const uint nReads = countReads(f1);
-        std::string reads_1[nReads];
+        read* reads_1 = new read[nReads];
         std::string line;
         uint readCount = 0;
 
@@ -37,6 +39,7 @@ namespace no_binary {
             if (line[0] != '>'){
 
                 reads_1[readCount] = line;
+                ++readCount;
             }
         }
 
@@ -48,7 +51,7 @@ namespace no_binary {
 
         t1 = std::chrono::high_resolution_clock::now();
 
-        std::string reads_2[nReads];
+        read* reads_2 = new read[nReads];
         readCount = 0;
 
         while(std::getline(f2, line)){
@@ -56,6 +59,7 @@ namespace no_binary {
             if (line[0] != '>'){
 
                 reads_2[readCount] = line;
+                ++readCount;
             }
         }
 
@@ -86,6 +90,9 @@ namespace no_binary {
         std::cout << "Equal : " << a << std::endl;
         std::cout << "Different : " << b << std::endl;
         std::cout << "Total : " << c << std::endl << std::endl;
+
+        delete[] reads_1;
+        delete[] reads_2;
     }
 
 }

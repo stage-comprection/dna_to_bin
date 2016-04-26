@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <iostream>
 
 // Splits a std::string into a std::vector of std::strings according to a specified delimiter
 std::vector<std::string> split(std::string str, const std::string delimiter){
@@ -35,7 +36,7 @@ void resetFileIndex(std::ifstream& file){
 
 
 // Counts reads in a fasta file
-uint countReads(std::ifstream& file){
+const uint countReads(std::ifstream& file){
 
     uint count = 0;
     std::string line;

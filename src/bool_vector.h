@@ -61,7 +61,7 @@ namespace bool_vector {
         timePoint t1 = std::chrono::high_resolution_clock::now();
 
         const uint nReads = countReads(f1);
-        read reads_1[nReads];
+        read* reads_1 = new read[nReads];
         std::string line;
         uint readCount = 0;
 
@@ -69,7 +69,8 @@ namespace bool_vector {
 
             if (line[0] != '>'){
 
-                reads_1[readCount] = seq2bin(line, s);;
+                reads_1[readCount] = seq2bin(line, line.size());
+                ++readCount;
             }
         }
 
@@ -81,14 +82,15 @@ namespace bool_vector {
 
         t1 = std::chrono::high_resolution_clock::now();
 
-        read reads_2[nReads];
+        read* reads_2 = new read[nReads];
         readCount = 0;
 
         while(std::getline(f2, line)){
 
             if (line[0] != '>'){
 
-                reads_2[readCount] = seq2bin(line, s);;
+                reads_2[readCount] = seq2bin(line, line.size());
+                ++readCount;
             }
         }
 
@@ -119,6 +121,9 @@ namespace bool_vector {
         std::cout << "Equal : " << a << std::endl;
         std::cout << "Different : " << b << std::endl;
         std::cout << "Total : " << c << std::endl << std::endl;
+
+        delete[] reads_1;
+        delete[] reads_2;
     }
 
 }

@@ -7,9 +7,10 @@
 
 namespace bitset {
 
+    typedef std::bitset<196> read;
+
     // Convert a sequence of char into binary
-    template <typename T>
-    void seq2bin(std::string& seq, T& bin, const uint s){
+    void seq2bin(std::string& seq, read& bin, const uint s){
 
         for (uint i=0; i < s; ++i){
 
@@ -59,8 +60,8 @@ namespace bitset {
 
         const uint s=98;
         const uint nReads = countReads(f1);
-        std::bitset<2*s> reads_1[nReads];
-        std::bitset<2*s> bin;
+        read* reads_1 = new read[nReads];
+        read bin;
         std::string line;
         uint readCount = 0;
 
@@ -71,6 +72,7 @@ namespace bitset {
                 bin.reset();
                 seq2bin(line, bin, s);
                 reads_1[readCount] = bin;
+                ++readCount;
             }
         }
 
@@ -82,7 +84,7 @@ namespace bitset {
 
         t1 = std::chrono::high_resolution_clock::now();
 
-        std::bitset<2*s> reads_2[nReads];
+        read* reads_2 = new read[nReads];
         readCount = 0;
 
         while(std::getline(f2, line)){
@@ -92,6 +94,7 @@ namespace bitset {
                 bin.reset();
                 seq2bin(line, bin, s);
                 reads_2[readCount] = bin;
+                ++readCount;
             }
         }
 
@@ -122,6 +125,9 @@ namespace bitset {
         std::cout << "Equal : " << a << std::endl;
         std::cout << "Different : " << b << std::endl;
         std::cout << "Total : " << c << std::endl << std::endl;
+
+        delete[] reads_1;
+        delete[] reads_2;
     }
 
 }
